@@ -13,10 +13,6 @@ Changes that involve modifications to player based information should go in the 
 # Generic/Built-in Imports
 import http.client
 import math
-import os
-import time
-
-from OSRSBytes.Utilities import Utilities
 
 # META Data
 __copyright__  = 'Copyright 2023, CFDeadlines'
