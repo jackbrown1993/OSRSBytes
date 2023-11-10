@@ -115,18 +115,22 @@ class Hiscores(object):
                         successfully or not.
         """
         conn = http.client.HTTPSConnection('secure.runescape.com')
+        # Regular account
         if self.accountType == 'N':
             conn.request("GET", "/m=hiscore_oldschool/index_lite.ws?player={}".format(self.username.replace(' ','%20')))
             self.response = conn.getresponse()
             self.status = self.response.status
+        # Ironman account
         elif self.accountType == 'IM':
             conn.request("GET", "/m=hiscore_oldschool_ironman/index_lite.ws?player={}".format(self.username.replace(' ','%20')))
             self.response = conn.getresponse()
             self.status = self.response.status
+        # Ultimate Ironman account
         elif self.accountType == "UIM":
             conn.request("GET", "/m=hiscore_oldschool_ultimate/index_lite.ws?player={}".format(self.username.replace(' ','%20')))
             self.response = conn.getresponse()
             self.status = self.response.status
+        # Hardcore Ironman account
         elif self.accountType == "HIM":
             conn.request("GET", "/m=hiscore_oldschool_hardcore_ironman/index_lite.ws?player={}".format(self.username.replace(' ','%20')))
             self.response = conn.getresponse()
@@ -154,7 +158,7 @@ class Hiscores(object):
             self.parseData(): This method is called when self.status is 200 (success)
         """
         if self.status != 200:
-            self.errorMsg = "Player name given not found in account type provided.  Valid account types are, 'N' (Normal), 'IM' (Iron Man), 'UIM' (Ultimate Iron Man), 'HIM' (Hardcore Iron Man)"
+            self.errorMsg = "Player name given not found in account type provided.  Valid account types are, 'N' (Normal), 'IM' (Ironman), 'UIM' (Ultimate Ironman), 'HIM' (Hardcore Ironman)"
             self.error()
         else:
             self.data = self.response.read().decode('ascii')
@@ -211,10 +215,10 @@ class Hiscores(object):
                 info['level'] = int(info_list[1])
                 info['experience'] = int(info_list[2])
 
-                # calculate xp to next level
+                # Calculate XP to next level
                 level = info['level'] + 1
                 
-                # If 200M XP, set next level and exp to next to 0
+                # If 200M XP, set next level and XP to next to 0
                 if (int(info['experience']) == 200000000):
                     info['next_level_exp'] = 0
                     info['exp_to_next_level'] = 0
